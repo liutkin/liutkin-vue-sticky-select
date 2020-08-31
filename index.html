@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue-sticky-select</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/normalize.css/normalize.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 16px;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        background-color: white;
+        font-family: Helvetica, sans-serif;
+        color: rgba(0, 0, 0, 0.9);
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      #app {
+        max-width: 20rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <animate-shuffle
+        :options="options"
+        v-model="selectedOptionIndex"
+        placeholder="Select option"
+      ></animate-shuffle>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-sticky-select/dist/vue-sticky-select.min.js"></script>
+    <script>
+      new Vue({
+        el: document.querySelector("#app"),
+        data: {
+          selectedOptionIndex: null,
+          options: [
+            "Banana",
+            "Avocado",
+            "Durian",
+            "Grapefruit",
+            "Orange",
+            "Pear",
+            "Watermelon",
+            "Blackberry",
+            "Cherries",
+            "Mango",
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>
