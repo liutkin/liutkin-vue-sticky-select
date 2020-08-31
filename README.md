@@ -4,10 +4,23 @@
 
 Select component for VueJS, inspired by macOS native select UI element.
 
+🎥[Demo](https://liutkin.github.io/vue-sticky-select/)
+
 ## Install
 
 ```bash
 npm i vue-sticky-select
+```
+
+```js
+import StickySelect from "vue-sticky-select";
+
+export default {
+  name: "FooBar",
+  components: {
+    StickySelect,
+  },
+};
 ```
 
 ## Usage
