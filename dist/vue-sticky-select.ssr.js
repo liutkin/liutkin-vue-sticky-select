@@ -1,4 +1,4 @@
-'use strict';Object.defineProperty(exports,'__esModule',{value:true});var vClickOutside=require('v-click-outside'),vueObserveVisibility=require('vue-observe-visibility');function _interopDefaultLegacy(e){return e&&typeof e==='object'&&'default'in e?e:{'default':e}}var vClickOutside__default=/*#__PURE__*/_interopDefaultLegacy(vClickOutside);function _typeof(obj) {
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});function _typeof(obj) {
   "@babel/helpers - typeof";
 
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
@@ -27,11 +27,326 @@ function _defineProperty(obj, key, value) {
   }
 
   return obj;
+}var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function createCommonjsModule(fn, basedir, module) {
+	return module = {
+	  path: basedir,
+	  exports: {},
+	  require: function (path, base) {
+      return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
+    }
+	}, fn(module, module.exports), module.exports;
+}
+
+function commonjsRequire () {
+	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
+}var vClickOutside_umd = createCommonjsModule(function (module, exports) {
+!function(e,n){module.exports=n();}(commonjsGlobal,function(){var e="__v-click-outside",n="undefined"!=typeof window,t="undefined"!=typeof navigator,i=n&&("ontouchstart"in window||t&&navigator.msMaxTouchPoints>0)?["touchstart"]:["click"];function o(n,t){var o=function(e){var n="function"==typeof e;if(!n&&"object"!=typeof e)throw new Error("v-click-outside: Binding value must be a function or an object");return {handler:n?e:e.handler,middleware:e.middleware||function(e){return e},events:e.events||i,isActive:!(!1===e.isActive)}}(t.value),r=o.handler,d=o.middleware;o.isActive&&(n[e]=o.events.map(function(e){return {event:e,handler:function(e){return function(e){var n=e.el,t=e.event,i=e.handler,o=e.middleware,r=t.path||t.composedPath&&t.composedPath(),d=r?r.indexOf(n)<0:!n.contains(t.target);t.target!==n&&d&&o(t)&&i(t);}({event:e,el:n,handler:r,middleware:d})}}}),n[e].forEach(function(t){var i=t.event,o=t.handler;return setTimeout(function(){n[e]&&document.documentElement.addEventListener(i,o,!1);},0)}));}function r(n){(n[e]||[]).forEach(function(e){return document.documentElement.removeEventListener(e.event,e.handler,!1)}),delete n[e];}var d=n?{bind:o,update:function(e,n){var t=n.value,i=n.oldValue;JSON.stringify(t)!==JSON.stringify(i)&&(r(e),o(e,{value:t}));},unbind:r}:{};return {install:function(e){e.directive("click-outside",d);},directive:d}});
+
+});function _typeof$1(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof$1 = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof$1 = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof$1(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+}
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+
+function processOptions(value) {
+  var options;
+
+  if (typeof value === 'function') {
+    // Simple options (callback-only)
+    options = {
+      callback: value
+    };
+  } else {
+    // Options object
+    options = value;
+  }
+
+  return options;
+}
+function throttle(callback, delay) {
+  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var timeout;
+  var lastState;
+  var currentArgs;
+
+  var throttled = function throttled(state) {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    currentArgs = args;
+    if (timeout && state === lastState) return;
+    var leading = options.leading;
+
+    if (typeof leading === 'function') {
+      leading = leading(state, lastState);
+    }
+
+    if ((!timeout || state !== lastState) && leading) {
+      callback.apply(void 0, [state].concat(_toConsumableArray(currentArgs)));
+    }
+
+    lastState = state;
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      callback.apply(void 0, [state].concat(_toConsumableArray(currentArgs)));
+      timeout = 0;
+    }, delay);
+  };
+
+  throttled._clear = function () {
+    clearTimeout(timeout);
+    timeout = null;
+  };
+
+  return throttled;
+}
+function deepEqual(val1, val2) {
+  if (val1 === val2) return true;
+
+  if (_typeof$1(val1) === 'object') {
+    for (var key in val1) {
+      if (!deepEqual(val1[key], val2[key])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  return false;
+}
+
+var VisibilityState =
+/*#__PURE__*/
+function () {
+  function VisibilityState(el, options, vnode) {
+    _classCallCheck(this, VisibilityState);
+
+    this.el = el;
+    this.observer = null;
+    this.frozen = false;
+    this.createObserver(options, vnode);
+  }
+
+  _createClass(VisibilityState, [{
+    key: "createObserver",
+    value: function createObserver(options, vnode) {
+      var _this = this;
+
+      if (this.observer) {
+        this.destroyObserver();
+      }
+
+      if (this.frozen) return;
+      this.options = processOptions(options);
+
+      this.callback = function (result, entry) {
+        _this.options.callback(result, entry);
+
+        if (result && _this.options.once) {
+          _this.frozen = true;
+
+          _this.destroyObserver();
+        }
+      }; // Throttle
+
+
+      if (this.callback && this.options.throttle) {
+        var _ref = this.options.throttleOptions || {},
+            _leading = _ref.leading;
+
+        this.callback = throttle(this.callback, this.options.throttle, {
+          leading: function leading(state) {
+            return _leading === 'both' || _leading === 'visible' && state || _leading === 'hidden' && !state;
+          }
+        });
+      }
+
+      this.oldResult = undefined;
+      this.observer = new IntersectionObserver(function (entries) {
+        var entry = entries[0];
+
+        if (entries.length > 1) {
+          var intersectingEntry = entries.find(function (e) {
+            return e.isIntersecting;
+          });
+
+          if (intersectingEntry) {
+            entry = intersectingEntry;
+          }
+        }
+
+        if (_this.callback) {
+          // Use isIntersecting if possible because browsers can report isIntersecting as true, but intersectionRatio as 0, when something very slowly enters the viewport.
+          var result = entry.isIntersecting && entry.intersectionRatio >= _this.threshold;
+          if (result === _this.oldResult) return;
+          _this.oldResult = result;
+
+          _this.callback(result, entry);
+        }
+      }, this.options.intersection); // Wait for the element to be in document
+
+      vnode.context.$nextTick(function () {
+        if (_this.observer) {
+          _this.observer.observe(_this.el);
+        }
+      });
+    }
+  }, {
+    key: "destroyObserver",
+    value: function destroyObserver() {
+      if (this.observer) {
+        this.observer.disconnect();
+        this.observer = null;
+      } // Cancel throttled call
+
+
+      if (this.callback && this.callback._clear) {
+        this.callback._clear();
+
+        this.callback = null;
+      }
+    }
+  }, {
+    key: "threshold",
+    get: function get() {
+      return this.options.intersection && this.options.intersection.threshold || 0;
+    }
+  }]);
+
+  return VisibilityState;
+}();
+
+function bind(el, _ref2, vnode) {
+  var value = _ref2.value;
+  if (!value) return;
+
+  if (typeof IntersectionObserver === 'undefined') {
+    console.warn('[vue-observe-visibility] IntersectionObserver API is not available in your browser. Please install this polyfill: https://github.com/w3c/IntersectionObserver/tree/master/polyfill');
+  } else {
+    var state = new VisibilityState(el, value, vnode);
+    el._vue_visibilityState = state;
+  }
+}
+
+function update(el, _ref3, vnode) {
+  var value = _ref3.value,
+      oldValue = _ref3.oldValue;
+  if (deepEqual(value, oldValue)) return;
+  var state = el._vue_visibilityState;
+
+  if (!value) {
+    unbind(el);
+    return;
+  }
+
+  if (state) {
+    state.createObserver(value, vnode);
+  } else {
+    bind(el, {
+      value: value
+    }, vnode);
+  }
+}
+
+function unbind(el) {
+  var state = el._vue_visibilityState;
+
+  if (state) {
+    state.destroyObserver();
+    delete el._vue_visibilityState;
+  }
+}
+
+var ObserveVisibility = {
+  bind: bind,
+  update: update,
+  unbind: unbind
+};
+
+function install(Vue) {
+  Vue.directive('observe-visibility', ObserveVisibility);
+  /* -- Add more components here -- */
+}
+/* -- Plugin definition & Auto-install -- */
+
+/* You shouldn't have to modify the code below */
+// Plugin
+
+var plugin = {
+  // eslint-disable-next-line no-undef
+  version: "0.4.6",
+  install: install
+};
+
+var GlobalVue = null;
+
+if (typeof window !== 'undefined') {
+  GlobalVue = window.Vue;
+} else if (typeof global !== 'undefined') {
+  GlobalVue = global.Vue;
+}
+
+if (GlobalVue) {
+  GlobalVue.use(plugin);
 }var script = {
   name: "StickySelect",
   directives: {
-    clickOutside: vClickOutside__default['default'].directive,
-    observeVisibility: vueObserveVisibility.ObserveVisibility
+    clickOutside: vClickOutside_umd.directive,
+    observeVisibility: ObserveVisibility
   },
   model: {
     prop: "selected",
@@ -365,37 +680,37 @@ var __vue_component__ = /*#__PURE__*/normalizeComponent({
   staticRenderFns: __vue_staticRenderFns__
 }, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, false, undefined, createInjectorSSR, undefined);// Import vue component
 
-var install = function installStickySelect(Vue) {
-  if (install.installed) return;
-  install.installed = true;
+var install$1 = function installStickySelect(Vue) {
+  if (install$1.installed) return;
+  install$1.installed = true;
   Vue.component("StickySelect", __vue_component__);
 }; // Create module definition for Vue.use()
 
 
-var plugin = {
-  install: install
+var plugin$1 = {
+  install: install$1
 }; // To auto-install on non-es builds, when vue is found
 // eslint-disable-next-line no-redeclare
 
 /* global window, global */
 
 {
-  var GlobalVue = null;
+  var GlobalVue$1 = null;
 
   if (typeof window !== "undefined") {
-    GlobalVue = window.Vue;
+    GlobalVue$1 = window.Vue;
   } else if (typeof global !== "undefined") {
-    GlobalVue = global.Vue;
+    GlobalVue$1 = global.Vue;
   }
 
-  if (GlobalVue) {
-    GlobalVue.use(plugin);
+  if (GlobalVue$1) {
+    GlobalVue$1.use(plugin$1);
   }
 } // Inject install function into component - allows component
 // to be registered via Vue.use() as well as Vue.component()
 
 
-__vue_component__.install = install; // Export component by default
+__vue_component__.install = install$1; // Export component by default
 // also be used as directives, etc. - eg. import { RollupDemoDirective } from 'rollup-demo';
 // export const RollupDemoDirective = component;
 exports.default=__vue_component__;

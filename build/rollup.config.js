@@ -8,6 +8,7 @@ import replace from "@rollup/plugin-replace";
 import babel from "rollup-plugin-babel";
 import { terser } from "rollup-plugin-terser";
 import minimist from "minimist";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs
@@ -54,8 +55,6 @@ const external = [
   // list external dependencies, exactly the way it is written in the import statement.
   // eg. 'jquery'
   "vue",
-  "v-click-outside",
-  "vue-observe-visibility",
 ];
 
 // UMD/IIFE shared settings: output.globals
@@ -64,8 +63,6 @@ const globals = {
   // Provide global variable names to replace your external imports
   // eg. jquery: '$'
   vue: "Vue",
-  "v-click-outside": "v-click-outside",
-  "vue-observe-visibility": "vue-observe-visibility",
 };
 
 // Customize configs for individual targets
@@ -98,6 +95,7 @@ if (!argv.format || argv.format === "es") {
         ],
       }),
       commonjs(),
+      nodeResolve(),
     ],
   };
   buildFormats.push(esConfig);
@@ -127,6 +125,7 @@ if (!argv.format || argv.format === "cjs") {
       }),
       babel(baseConfig.plugins.babel),
       commonjs(),
+      nodeResolve(),
     ],
   };
   buildFormats.push(umdConfig);
@@ -155,6 +154,7 @@ if (!argv.format || argv.format === "iife") {
           ecma: 5,
         },
       }),
+      nodeResolve(),
     ],
   };
   buildFormats.push(unpkgConfig);

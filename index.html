@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://unpkg.com/normalize.css/normalize.css"
     />
+    <link rel="stylesheet" href="https://unpkg.com/@kocktail/css" />
     <style>
       * {
         box-sizing: border-box;
@@ -31,21 +32,38 @@
         line-height: 1.5;
       }
 
+      a {
+        transition: color 0.25s;
+        color: dodgerblue;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        color: royalblue;
+      }
+
       #app {
         max-width: 20rem;
       }
     </style>
   </head>
   <body>
-    <div id="app">
-      <animate-shuffle
+    <div id="app" class="width-full">
+      <h1 class="text-center margin-top-0 margin-bottom-3">
+        vue-sticky-select
+      </h1>
+      <sticky-select
         :options="options"
         v-model="selectedOptionIndex"
         placeholder="Select option"
-      ></animate-shuffle>
+      ></sticky-select>
+      <div class="margin-top-3 text-center">
+        <a href="https://github.com/liutkin/vue-sticky-select">GitHub</a>
+      </div>
     </div>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-sticky-select/dist/vue-sticky-select.min.js"></script>
+    <script src="dist/vue-sticky-select.min.js"></script>
     <script>
       new Vue({
         el: document.querySelector("#app"),
