@@ -1,6 +1,6 @@
 {
   "name": "vue-sticky-select",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Select component for VueJS.",
   "license": "MIT",
   "repository": "liutkin/vue-sticky-select",
