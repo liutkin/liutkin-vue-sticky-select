@@ -4,7 +4,7 @@
 
 Select component for VueJS, inspired by macOS native select UI element.
 
-🎥[Demo](https://liutkin.github.io/vue-sticky-select/)
+🎥 [Demo](https://liutkin.github.io/vue-sticky-select/)
 
 ## Install
 
